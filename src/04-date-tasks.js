@@ -19,8 +19,8 @@
  *    'Tue, 26 Jan 2016 13:48:02 GMT' => Date()
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
-function parseDataFromRfc2822(/* value */) {
-  throw new Error('Not implemented');
+function parseDataFromRfc2822(value) {
+  return new Date(value);
 }
 
 /**
@@ -34,8 +34,8 @@ function parseDataFromRfc2822(/* value */) {
  *    '2016-01-19T16:07:37+00:00'    => Date()
  *    '2016-01-19T08:07:37Z' => Date()
  */
-function parseDataFromIso8601(/* value */) {
-  throw new Error('Not implemented');
+function parseDataFromIso8601(value) {
+  return new Date(value);
 }
 
 
@@ -53,8 +53,9 @@ function parseDataFromIso8601(/* value */) {
  *    Date(2012,1,1)    => true
  *    Date(2015,1,1)    => false
  */
-function isLeapYear(/* date */) {
-  throw new Error('Not implemented');
+function isLeapYear(date) {
+  const year = date.getFullYear();
+  return new Date(year, 1, 29).getDate() === 29;
 }
 
 
@@ -73,8 +74,46 @@ function isLeapYear(/* date */) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,10,0,0,250)     => "00:00:00.250"
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
-function timeSpanToString(/* startDate, endDate */) {
-  throw new Error('Not implemented');
+function timeSpanToString(startDate, endDate) {
+  const time = (endDate - startDate) / 1000;
+  function formatDuration(timeInSeconds) {
+    let ss = timeInSeconds;
+    const secondsInMinute = 60;
+    const secondsInHour = secondsInMinute * 60;
+    const secondsInDay = secondsInHour * 24;
+    const secondsInYear = secondsInDay * 365;
+    const timeData = [];
+    if (ss >= secondsInYear) {
+      const years = Math.floor(ss / secondsInYear);
+      ss -= years * secondsInYear;
+      timeData.push(years);
+    }
+    if (ss >= secondsInDay) {
+      const days = Math.floor(ss / secondsInDay);
+      ss -= days * secondsInDay;
+      timeData.push(days);
+    }
+    if (ss >= secondsInHour) {
+      let hours = Math.floor(ss / secondsInHour);
+      ss -= hours * secondsInHour;
+      hours = hours.toString().padStart(2, 0);
+      timeData.push(hours);
+    } else {
+      timeData.push('00');
+    }
+    if (ss >= secondsInMinute) {
+      let minutes = Math.floor(ss / secondsInMinute);
+      ss -= minutes * secondsInMinute;
+      minutes = minutes.toString().padStart(2, 0);
+      timeData.push(minutes);
+    } else {
+      timeData.push('00');
+    }
+    timeData.push(Math.floor(ss).toString().padStart(2, 0));
+    const mSeconds = (ss - Math.floor(ss)).toString().slice(2, 5).padEnd(3, 0);
+    return `${timeData.join(':')}.${mSeconds}`;
+  }
+  return formatDuration(time);
 }
 
 
@@ -96,6 +135,22 @@ function timeSpanToString(/* startDate, endDate */) {
  */
 function angleBetweenClockHands(/* date */) {
   throw new Error('Not implemented');
+  // let hours = date.getHours();
+  // const minutes = date.getMinutes();
+  // if (hours >= 12) {
+  //   hours -= 12;
+  // }
+  // const hoursDeg = hours * 30;
+  // const minutesDeg = minutes * 5.5;
+  // let delta = Math.abs(minutesDeg - hoursDeg);
+  // if (delta === 0) return 0;
+  // if (delta > 180) {
+  //   delta = 360 - delta;
+  // }
+  // console.log(delta);
+  // const rad = (Math.PI / 180);
+  // const res = rad * delta;
+  // return res;
 }
 
 
