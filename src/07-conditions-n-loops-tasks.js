@@ -475,8 +475,47 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  for (let i = 0; i < position.length; i += 1) {
+    const subArr = position[i];
+    const sumX = subArr.reduce((acc, curr) => {
+      if (curr === 'X') return acc + 1;
+      return acc + 0;
+    }, 0);
+    if (sumX === 3) return 'X';
+    const sumZ = subArr.reduce((acc, curr) => {
+      if (curr === '0') return acc + 1;
+      return acc + 0;
+    }, 0);
+    if (sumZ === 3) return '0';
+  }
+  for (let i = 0; i < 3; i += 1) {
+    let sumX = 0;
+    let sumZ = 0;
+    for (let j = 0; j < 3; j += 1) {
+      if (position[j][i] === 'X') sumX += 1;
+      if (position[j][i] === '0') sumZ += 1;
+    }
+    if (sumX === 3) return 'X';
+    if (sumZ === 3) return '0';
+  }
+  let sumX = 0;
+  let sumZ = 0;
+  for (let i = 0; i < 3; i += 1) {
+    if (position[i][i] === 'X') sumX += 1;
+    if (position[i][i] === '0') sumZ += 1;
+    if (sumX === 3) return 'X';
+    if (sumZ === 3) return '0';
+  }
+  sumX = 0;
+  sumZ = 0;
+  for (let i = 0; i < 3; i += 1) {
+    if (position[i][2 - i] === 'X') sumX += 1;
+    if (position[i][2 - i] === '0') sumZ += 1;
+    if (sumX === 3) return 'X';
+    if (sumZ === 3) return '0';
+  }
+  return undefined;
 }
 
 module.exports = {
