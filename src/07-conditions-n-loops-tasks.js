@@ -336,7 +336,12 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true
  */
 function isBracketsBalanced(str) {
-  const bracketsConfig = [['(', ')'], ['[', ']'], ['{', '}'], ['<', '>']];
+  const bracketsConfig = [
+    ['(', ')'],
+    ['[', ']'],
+    ['{', '}'],
+    ['<', '>'],
+  ];
   const openArr = [];
   const closeArr = [];
   const resArr = [];
@@ -441,8 +446,27 @@ function getCommonDirectoryPath(pathes) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const res = [];
+  for (let i = 0; i < m1.length; i += 1) {
+    const row = m1[i];
+    const sub = [];
+    for (let index = 0; index < m2.length; index += 1) {
+      let sum = 0;
+      let flag = false;
+      for (let j = 0; j < m2.length; j += 1) {
+        if (m2[j][index]) {
+          flag = true;
+          sum += row[j] * m2[j][index];
+        }
+      }
+      if (flag) {
+        sub.push(sum);
+      }
+    }
+    res.push(sub);
+  }
+  return res;
 }
 
 /**
