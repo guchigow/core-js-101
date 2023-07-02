@@ -6,7 +6,6 @@
  *                                                                                           *
  ******************************************************************************************* */
 
-
 /**
  * Parses a rfc2822 string date representation into date value
  * For rfc2822 date specification refer to : http://tools.ietf.org/html/rfc2822#page-14
@@ -38,7 +37,6 @@ function parseDataFromIso8601(value) {
   return new Date(value);
 }
 
-
 /**
  * Returns true if specified date is leap year and false otherwise
  * Please find algorithm here: https://en.wikipedia.org/wiki/Leap_year#Algorithm
@@ -57,7 +55,6 @@ function isLeapYear(date) {
   const year = date.getFullYear();
   return new Date(year, 1, 29).getDate() === 29;
 }
-
 
 /**
  * Returns the string representation of the timespan between two dates.
@@ -116,7 +113,6 @@ function timeSpanToString(startDate, endDate) {
   return formatDuration(time);
 }
 
-
 /**
  * Returns the angle (in radians) between the hands of an analog clock
  * for the specified Greenwich time.
@@ -133,26 +129,22 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,18, 0) => Math.PI
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
-function angleBetweenClockHands(/* date */) {
-  throw new Error('Not implemented');
-  // let hours = date.getHours();
-  // const minutes = date.getMinutes();
-  // if (hours >= 12) {
-  //   hours -= 12;
-  // }
-  // const hoursDeg = hours * 30;
-  // const minutesDeg = minutes * 5.5;
-  // let delta = Math.abs(minutesDeg - hoursDeg);
-  // if (delta === 0) return 0;
-  // if (delta > 180) {
-  //   delta = 360 - delta;
-  // }
-  // console.log(delta);
-  // const rad = (Math.PI / 180);
-  // const res = rad * delta;
-  // return res;
+function angleBetweenClockHands(date) {
+  let hours = date.getUTCHours();
+  const minutes = date.getUTCMinutes();
+  if (hours >= 12) {
+    hours -= 12;
+  }
+  const hoursDeg = hours * 30;
+  const minutesDeg = minutes * 5.5;
+  let delta = Math.abs(minutesDeg - hoursDeg);
+  if (delta === 0) return 0;
+  if (delta > 180) {
+    delta = 360 - delta;
+  }
+  const rad = Math.PI / 180;
+  return rad * delta;
 }
-
 
 module.exports = {
   parseDataFromRfc2822,
